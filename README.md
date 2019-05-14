@@ -18,4 +18,4 @@
 - 所使用的依赖包有：optimize-css-assets-webpack-plugin uglifyjs-webpacl-plugin
 
 - 6. 处理 es6 和一些更高级的语法
-- 所使用的依赖包有：babel-loader @babel/core @babel/preset-env @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties
+- 所使用的依赖包有：babel-loader @babel/core @babel/preset-env @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties  @babel/plugin-transform-runtime  @babel/runtime  @babel/polyfill[includes]
