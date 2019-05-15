@@ -34,3 +34,5 @@
 - 11. copyWebpackPlugin bannerWebpack cleanWebpackPlugin等插件
 
 - 12. 定义环境变量DefinePlugin 和 区别不同环境
+
+- 13. webpack自带优化，noParse  IgnorePlugin
