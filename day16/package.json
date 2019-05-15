@@ -1,0 +1,17 @@
+{
+  "name": "day16",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev": "webpack-dev-server",
+    "build": "webpack"
+  },
+  "devDependencies": {
+    "webpack": "^4.31.0",
+    "webpack-cli": "^3.3.2"
+  },
+  "dependencies": {
+    "jquery": "^3.4.1"
+  }
+}

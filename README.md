@@ -40,3 +40,5 @@
 - 14. webpack优化，动态链接库 DllPlugin DllReferencePlugin
 
 - 15. webpack优化，多线程打包 happypack 和自带优化 tree-shaking & scope-hosting
+
+- 16. 抽离公共代码
