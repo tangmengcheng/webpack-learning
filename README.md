@@ -28,3 +28,5 @@
 
 - 9. 打包多页应用
 - 所使用的依赖包有：html-webpack-plugin
+
+- 10. 配置sourceMap和watch的用法和resolve属性的配置
