@@ -25,3 +25,6 @@
 
 - 8. 图片的处理
 - 所使用的依赖包有：file-loader url-loader html-withimg-loader
+
+- 9. 打包多页应用
+- 所使用的依赖包有：html-webpack-plugin
