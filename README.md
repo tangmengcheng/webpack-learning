@@ -22,3 +22,6 @@
 
 - 7. 全局变量的引入[jquery]
 - 所使用的依赖包有：expose-loader  webpack.providePlugin()  externals:{}
+
+- 8. 图片的处理
+- 所使用的依赖包有：file-loader url-loader html-withimg-loader
