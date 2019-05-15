@@ -32,3 +32,5 @@
 - 10. 配置sourceMap和watch的用法和resolve属性的配置
 
 - 11. copyWebpackPlugin bannerWebpack cleanWebpackPlugin等插件
+
+- 12. 定义环境变量DefinePlugin 和 区别不同环境
