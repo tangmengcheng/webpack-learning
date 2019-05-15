@@ -42,3 +42,5 @@
 - 15. webpack优化，多线程打包 happypack 和自带优化 tree-shaking & scope-hosting
 
 - 16. 抽离公共代码
+
+- 16. 懒加载和热加载
