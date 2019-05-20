@@ -18,10 +18,10 @@
 - 所使用的依赖包有：optimize-css-assets-webpack-plugin uglifyjs-webpacl-plugin
 
 - 6. 处理 es6 和一些更高级的语法
-- 所使用的依赖包有：babel-loader @babel/core @babel/preset-env @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties  @babel/plugin-transform-runtime  @babel/runtime  @babel/polyfill[includes]
+- 所使用的依赖包有：babel-loader @babel/core @babel/preset-env @babel/plugin-proposal-decorators @babel/plugin-proposal-class-properties @babel/plugin-transform-runtime @babel/runtime @babel/polyfill[includes]
 
 - 7. 全局变量的引入[jquery]
-- 所使用的依赖包有：expose-loader  webpack.providePlugin()  externals:{}
+- 所使用的依赖包有：expose-loader webpack.providePlugin() externals:{}
 
 - 8. 图片的处理
 - 所使用的依赖包有：file-loader url-loader html-withimg-loader
@@ -29,18 +29,20 @@
 - 9. 打包多页应用
 - 所使用的依赖包有：html-webpack-plugin
 
-- 10. 配置sourceMap和watch的用法和resolve属性的配置
+- 10. 配置 sourceMap 和 watch 的用法和 resolve 属性的配置
 
-- 11. copyWebpackPlugin bannerWebpack cleanWebpackPlugin等插件
+- 11. copyWebpackPlugin bannerWebpack cleanWebpackPlugin 等插件
 
-- 12. 定义环境变量DefinePlugin 和 区别不同环境
+- 12. 定义环境变量 DefinePlugin 和 区别不同环境
 
-- 13. webpack自带优化，noParse  IgnorePlugin
+- 13. webpack 自带优化，noParse IgnorePlugin
 
-- 14. webpack优化，动态链接库 DllPlugin DllReferencePlugin
+- 14. webpack 优化，动态链接库 DllPlugin DllReferencePlugin
 
-- 15. webpack优化，多线程打包 happypack 和自带优化 tree-shaking & scope-hosting
+- 15. webpack 优化，多线程打包 happypack 和自带优化 tree-shaking & scope-hosting
 
 - 16. 抽离公共代码
 
-- 16. 懒加载和热加载
+- 17. 懒加载和热加载
+
+- 18. 手写 webpack

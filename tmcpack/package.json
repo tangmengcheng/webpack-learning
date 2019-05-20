@@ -1,0 +1,17 @@
+{
+  "name": "tmcpack",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "bin": {
+    "tmcpack": "./bin/tmcpack.js"
+  },
+  "devDependencies": {
+    "@babel/generator": "^7.4.4",
+    "@babel/traverse": "^7.4.4",
+    "@babel/types": "^7.4.4",
+    "babylon": "^6.18.0",
+    "ejs": "^2.6.1",
+    "tapable": "^1.1.3"
+  }
+}
