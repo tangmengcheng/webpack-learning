@@ -9,7 +9,7 @@ module.exports = {
   },
   resolveLoader: {
     modules: ['node_modules', path.resolve(__dirname, 'loader')]
-  }
+  },
   module: {
     rules: [ 
       {
