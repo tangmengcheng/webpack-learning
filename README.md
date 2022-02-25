@@ -327,7 +327,94 @@ module.exports = {
 **综上所得**：可以选择：source-map / cheap-module-source-map
 
 - 删除多余代码（Tree Shaking）
+
+> Tree Shaking 的作用是删除未引用的代码（dead code）
+
+- return 后面的代码
+- 只声明，而未使用的函数
+- 只引入，而未使用的代码
+
+> 使用 Tree Shaking 的前提
+
+1. 使用 ES Modules 规范的模块，才能执行 Tree Shaking
+2. Tree Shaking 依赖于 ES Modules 的静态语法分析
+
+> 如何使用呢
+
+1. 生产模式：Tree Shaking 会自动开启
+2. 开发模式：（两种方式：usedExports, sideEffects）
+
+- optimization.usedExports (标记没有的代码)
+
+  - /_ unused harmony export xxxx _/标记没使用的代码
+
+- terser-webpack-plugin（删除没用的代码）
+
+  - optimization.minimize: true（删除 unused harmony export xxxx 标记的代码）
+  - Webpack4 需要单独安装（Webpack5 内置，无需安装）
+
+- Tree Shaking 与 Source Map 一起用的时候，存在兼容性问题
+
+  - devtool: 只能选择 source-map | inline-source-map | hidden-source-map | nosources-source-map
+  - eval 模式，将 JS 输出为字符串（不是 ES Modules 规范），导致 Tree Shaking 失效
+
+```js
+const TerserPlugin = require('terser-webpack-plugin')
+module.exports = {
+  // 优化策略
+  optimization: {
+    usedExports: true, // 标记未被使用的代码
+    minimize: true, // 删除usedExports标记的未使用的代码
+    minimizer: [new TerserPlugin()],
+  },
+}
+```
+
+- 副作用
+
+  - 无副作用：如果一个模块单纯的导入导出变量，那它就无副作用
+  - 有副作用：如果一个模块还修改其他模块或者全局的一些东西，就有副作用
+    - 修改全局变量
+    - 在原型上扩展方法
+    - css 的引入
+
+> sideEffects 的作用：把未使用但无副作用的模块一并删除
+
+    - 对于没有副作用的模块，未使用代码不会被打包（相当于压缩了输出内容）
+
+- 开启副作用（webpack.config.js）
+
+  - optimization.sideEffects: true
+
+- 标识代码是否有副作用（package.json）
+
+  - "sideEffects"
+    - false: 所有代码都没有副作用（告诉 webpack 可以安全的删除未用的 exports）
+    - true: 所有代码都有副作用
+    - 数组：（告诉 webpack 哪些模块有副作用，不删除）
+      - 【相对路径，绝对路径，正则】['./src/index.js', '*.css']
+
+```js
+// webpack.config.js
+module.exports = {
+  // 优化策略
+  optimization: {
+    sideEffects: true,
+  },
+}
+// package.json
+{
+    // "sideEffects": false 删除所有没有导出的内容
+    "sideEffects": [ // 告诉webpack哪些有副作用的
+        "./src/extend.js",
+        "./src/css/**"
+    ]
+}
+```
+
 - 缓存
 - 模块解析（resolve）
 - 排除依赖（externals）
 - 模块联邦
+
+Webpack5 中压缩 CSS 的插件，建议使用 css-minimizer-webpack-plugin（https://www.npmjs.com/package/css-minimizer-webpack-plugin）
