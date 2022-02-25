@@ -186,7 +186,146 @@ webpack 可以看做是模块打包机，它做的事情是，分析你的项目
 
 - 自定义 loader
 - 代码分离（Code Splitting）
+
+> 为什么要有代码分离
+
+1. 如果把所有代码都打包一起，可能最终的代码非常大
+2. 很多代码初始加载时，是不需要的。我们可以根据代码的紧急程度，将代码分割打包
+
+> 怎么做代码分离呢
+
+1. 多入口打包：配置 entry 加载加载多个入口文件
+2. 提取公用模块：optimization.splitChunks.chunks: all
+3. 动态导入：按需加载 | 预加载
+
+- 多入口打包
+
+```js
+module.exports = {
+  entry: {
+    index: './scr/index.js',
+    about: './src/about.js',
+  },
+  output: {
+    filename: '[name].bundle.js', // 不能写成固定名称
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      // 不同页面加载各自的bundle
+      chunks: ['index'],
+    }),
+    new HtmlWebpackPlugin({
+      chunks: ['about'],
+    }),
+  ],
+}
+```
+
+- 提取公共代码
+
+如果多个页面都用到了一个公共文件（例如：jQuery）,每个页面都将公共文件打包一次是不合理的。更好的办法是将公共文件提取出来
+
+将公共文件提取出来，单独打包
+
+```js
+module.exports = {
+  // 优化策略
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+  },
+}
+```
+
+- 代码分离（Code Splitting）动态导入
+
+1. 懒加载
+
+   - 默认不加载，事件触发后才加载
+   - webpackChunkName: '加载名称'
+
+   ```js
+   // import: 开启懒加载
+   // webpackPrefetch: true 开启预加载
+   import(/* webpackChunkName: 'tmc', webpackPrefetch: true */, './xxx').then(res => {
+       console.log(res)
+   })
+   ```
+
+2. 预加载
+
+   - 先等待其他资源加载，浏览器空闲时，再加载
+   - webpackPrefetch: true
+   - 缺点：在移动端有兼容性问题
+
+**注意：**两者的区别：预加载在浏览器的 network 中有记录，懒加载没有
+
 - 源码映射（Source Map）
+
+> 什么是 Source Map
+
+- 是一种源代码与构建后代码之间的映射技术
+- 通过.map 文件，将构建后的代码与源代码之间建立映射关系
+
+> 为什么要用 Source Map
+
+- 问题：构建后的代码，出了问题之后不好定位
+- 方案：有了 Source Map 后，可以快速定位问题代码
+
+> 如何生成 Source Map
+
+- devtool: '映射模式'
+
+1. 不同的映射模式的报错定位和打包执行速度不同
+2. Webpack4 中，一共有 13 种不同的映射模式
+3. Webpack5 中，一共有 26 种不同的映射模式
+
+- cheap: 只定位报错行，不定位报错列
+- hidden: 生成.map 文件，但是.js 的末尾没有关联.map, 报错后需手动关联，然后定位报错
+- inline: 不生成.map 文件，映射以 Base64-VLQs 的形式添加到.js 最后
+- eval: 不生成.map 文件，映射信息追加到 eval 函数的最后
+- module: 不但映射工程师自己写的代码，还支持对 loader 和第三方模块的映射
+- nosources: 生成的.map 中不包含 sourceContent, 定位错误时看不到源码（更安全）
+
+| devtool | .map | build | rebuild | production | description |
+| none | Y | fastest | fastest | Y | 不启用 Source Map |
+| source-map | Y | fastest | slowest | Y | 报错时，定位行列（功能最全，也最慢） |
+| cheap-source-map | Y | fast | slow | Y | 只定位行（不包含第三方模块） |
+| cheap-module-source-map | Y | slow | slower | Y | 只定位行，包含第三方模块 |
+| nosources-source-map | Y | slowest | slowest | Y | 只定位错误，不显示源码 |
+| hidden-source-map | Y | slowest | slowest | Y | 定位行列，默认.js 不关联.map，报错后手动关联 |
+| inline-source-map | N | fastest | fastest | N | 映射在.js 最后，定位行列 |
+| inline-cheap-source-map | N | fast | slow | N | 映射在.js 最后，只定位行 |
+| inline-cheap-module-source-map | N | slow | slower | N | 映射在.js 最后，只定位行 ，包含第三方模块 |
+| eval | N | fastest | fastest | N | 映射在 eval 函数最后，只映射文件名，不定位行和列 |
+| eval-source-map | N | slowest | fast | N | 映射在 eval 函数最后，定位行列 |
+| eval-cheap-source-map | N | fast | faster | N | 映射在 eval 函数最后，只定位行 |
+| eval-cheap-module-source-map | N | slow | faster | N | 映射在 eval 函数最后，值定位行，包含第三方模块 |
+
+> 开发环境：速度快，调试更友好
+
+- 速度快：（eval > inline > cheap > ....）
+
+  1. eval-cheap-source-map
+  2. eval-source-map
+
+- 调试更友好
+  1. source-map
+  2. cheap-module-source-map
+  3. cheap-source-map
+
+**综上所得**：可以选择：eval-source-map / eval-cheap-module-source-map
+
+> 生产环境：代码需不需要隐藏？
+
+内联会让代码体积变大，所以生产环境不用内联
+
+1. nosources-source-map 全部隐藏
+2. hidden-source-map 只隐藏源代码，会提示构建后代码错误
+
+**综上所得**：可以选择：source-map / cheap-module-source-map
+
 - 删除多余代码（Tree Shaking）
 - 缓存
 - 模块解析（resolve）
