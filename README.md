@@ -413,8 +413,32 @@ module.exports = {
 ```
 
 - 缓存
+
+  - Babel 缓存
+    - cacheDirectory: true（第二次构建时，会读取之前的缓存）
+  - 文件资源缓存
+    - 问题：如果代码再缓存期内，导致代码更新后看不到实时效果
+    - 方案：将代码文件名称，设置为哈希名称，名称发生变化时，就加载最新的内容
+    - Webpack 哈希值
+      - hash: (每次 webpack 打包生成的 hash 值)
+      - chunkhash: (不同 chunk 的 hash 值不同 -》同一次打包可能生成不同的 chunk)
+      - contenthash: (不同内容的 hash 值不同 -》同一个 chunk 中可能有不同的内容)
+
 - 模块解析（resolve）
 - 排除依赖（externals）
-- 模块联邦
+- 模块联邦（Module Federation）
+
+  - 多个应用，可以共享一个模块（本地可以调远程的模块）
+  - 模块提供方
+    - name: 当前应用名称（供调用方使用）
+    - filename: 打包后的文件名称（供调用方使用）
+    - exposes: 暴露模块（相当于 export 导出）
+      - 模块名称：模块文件路径
+  - 模块使用方 - remotes: 导入模块（相当于 import）
+
+    - 导入后的别名：“远程应用名称@远程地址/远程导出的文件名”
+    - import("导入后的别名/模块名称").then(//...)
+
+    // 按钮模块 轮播图模块 tab 切换模块等应用
 
 Webpack5 中压缩 CSS 的插件，建议使用 css-minimizer-webpack-plugin（https://www.npmjs.com/package/css-minimizer-webpack-plugin）
