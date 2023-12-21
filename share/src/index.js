@@ -5,9 +5,9 @@
  */
 // require('!!inline!./a')
 // require('./index.css')
-import './index.less'
+// import './index.less'
 console.log('hello')
-
+debugger
 class Wms {
     constructor(name) {
         this.name = name
@@ -19,5 +19,13 @@ class Wms {
 
 const w = new Wms('n-wms')
 const w1 = new Wms('mt-wms')
-console.log(w.getName())
-console.log(w1.getName())
+console.log(w)
+console.log(w1)
+console.log('hello1')
+
+/**
+ * @babel/parser 将源码解析成AST
+ * @babel/traverse 对AST节点进行递归遍历，生成一个便于操作、转换的path对象
+ * @babel/generator 将AST解码生成js代码
+ * @babel/types 通过该模块对具体的AST节点进行增、删、改、查
+ */

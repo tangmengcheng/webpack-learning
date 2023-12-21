@@ -17,18 +17,27 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.less$/,
-            use: ['style-loader', 'css-loader', 'less-loader']
-        }, {
             test: /\.js$/,
-            use: {
-                loader: 'banner-loader',
+            use: ['remove-console-loader', {
+                loader: 'babel-loader',
                 options: {
-                    name: '',
-                    filename: path.resolve(__dirname, 'banner.js')
+                    presets: ['@babel/preset-env']
                 }
-            }
+            }]
         }]
+        // rules: [{
+        //     test: /\.less$/,
+        //     use: ['style-loader', 'css-loader', 'less-loader']
+        // }, {
+        //     test: /\.js$/,
+        //     use: {
+        //         loader: 'banner-loader',
+        //         options: {
+        //             name: '',
+        //             filename: path.resolve(__dirname, 'banner.js')
+        //         }
+        //     }
+        // }]
         // rules: [{
         //     test: /\.js$/,
         //     use: {
