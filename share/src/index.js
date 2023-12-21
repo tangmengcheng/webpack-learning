@@ -4,7 +4,8 @@
  * !! 忽略 pre normal post(什么都不要 只要行内loader)
  */
 // require('!!inline!./a')
-require('./index.css')
+// require('./index.css')
+import './index.less'
 console.log('hello')
 
 class Wms {

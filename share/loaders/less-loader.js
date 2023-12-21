@@ -1,5 +1,15 @@
+const less = require('less')
+
 function loader(source) {
-    return source
+    const cb = this.async()
+    let css = ''
+    less.render(source, (err, data) => {
+        if (!err) {
+            css = data.css
+        }
+        cb(null, css)
+    })
+    // return source
 }
 
 
