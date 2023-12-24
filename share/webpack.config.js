@@ -17,14 +17,26 @@ module.exports = {
     },
     module: {
         rules: [{
-            test: /\.js$/,
-            use: ['remove-console-loader', {
-                loader: 'babel-loader',
-                options: {
-                    presets: ['@babel/preset-env']
+                test: /\.jpg$/,
+                // url-loader 会调用file-loader,处理图片路径 
+                // use: 'file-loader' // 目的：就是根据图片生成一个md5 发射到dist目录  file-loader还会返回当前的图片路径 
+                use: {
+                    loader: 'url-loader',
+                    options: {
+                        limit: 2000 * 1024
+                    }
                 }
-            }]
-        }]
+            },
+            {
+                test: /\.js$/,
+                use: ['remove-console-loader', {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['@babel/preset-env']
+                    }
+                }]
+            }
+        ]
         // rules: [{
         //     test: /\.less$/,
         //     use: ['style-loader', 'css-loader', 'less-loader']
